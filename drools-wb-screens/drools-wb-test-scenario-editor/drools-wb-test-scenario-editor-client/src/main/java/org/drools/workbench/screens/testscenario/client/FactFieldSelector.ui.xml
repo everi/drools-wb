@@ -20,4 +20,5 @@
 
   <b:ListBox ui:field="fieldsListBox"/>
 
+
 </ui:UiBinder>

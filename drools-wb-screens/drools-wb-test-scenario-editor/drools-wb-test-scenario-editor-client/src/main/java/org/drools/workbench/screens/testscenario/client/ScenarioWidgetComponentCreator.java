@@ -28,6 +28,7 @@ import org.drools.workbench.models.testscenarios.shared.ExecutionTrace;
 import org.drools.workbench.models.testscenarios.shared.FixtureList;
 import org.drools.workbench.models.testscenarios.shared.FixturesMap;
 import org.drools.workbench.models.testscenarios.shared.Scenario;
+
 import org.drools.workbench.screens.testscenario.client.resources.i18n.TestScenarioConstants;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.extras.select.client.ui.Option;

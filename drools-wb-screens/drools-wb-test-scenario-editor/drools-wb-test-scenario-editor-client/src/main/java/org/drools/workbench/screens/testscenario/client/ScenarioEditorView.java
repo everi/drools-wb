@@ -45,6 +45,7 @@ public interface ScenarioEditorView
 
     MenuItem getRunAllScenariosMenuItem();
 
+
     void initKSessionSelector(final ObservablePath path,
                               final Scenario scenario);
 

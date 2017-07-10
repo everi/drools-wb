@@ -16,71 +16,67 @@
 
 package org.drools.workbench.screens.testscenario.client;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.drools.workbench.models.testscenarios.shared.ExecutionTrace;
 import org.drools.workbench.models.testscenarios.shared.Fixture;
 import org.drools.workbench.models.testscenarios.shared.FixtureList;
 import org.drools.workbench.models.testscenarios.shared.Scenario;
 import org.drools.workbench.models.testscenarios.shared.VerifyFact;
-import org.drools.workbench.screens.testscenario.client.resources.i18n.TestScenarioConstants;
+import org.jboss.errai.ioc.client.container.IOC;
 import org.kie.workbench.common.widgets.client.datamodel.AsyncPackageDataModelOracle;
-import org.kie.workbench.common.widgets.client.resources.CommonAltedImages;
-import org.uberfire.ext.widgets.common.client.common.ImageButton;
+import org.uberfire.mvp.Command;
 
 public class VerifyFactsPanel extends VerticalPanel {
 
-    private final Scenario scenario;
 
     private final ScenarioParentWidget parent;
 
-    public VerifyFactsPanel( FixtureList verifyFacts,
-                             ExecutionTrace executionTrace,
-                             final Scenario scenario,
-                             ScenarioParentWidget scenarioWidget,
-                             boolean showResults,
-                             AsyncPackageDataModelOracle oracle ) {
+    private VerifyFactColumnView view;
 
-        this.scenario = scenario;
+    public VerifyFactsPanel(FixtureList verifyFacts,
+                            ExecutionTrace executionTrace,
+                            final Scenario scenario,
+                            ScenarioParentWidget scenarioWidget,
+                            boolean showResults,
+                            AsyncPackageDataModelOracle oracle) {
+
         this.parent = scenarioWidget;
 
-        for ( Fixture fixture : verifyFacts ) {
-            if ( fixture instanceof VerifyFact ) {
+
+        for (Fixture fixture : verifyFacts) {
+            if (fixture instanceof VerifyFact) {
+
+
+                VerifyFactColumn verifyFactColumn = IOC.getBeanManager().lookupBean(VerifyFactColumn.class).getInstance();
+
+                verifyFactColumn.init(executionTrace,
+                        scenario,
+                        showResults,
+                        fixture,
+                        scenarioWidget,
+                        oracle);
+
                 VerifyFact verifyFact = (VerifyFact) fixture;
 
-                HorizontalPanel column = new HorizontalPanel();
-                column.add( new VerifyFactWidget( verifyFact,
-                                                  scenario,
-                                                  oracle,
-                                                  executionTrace,
-                                                  showResults ) );
 
-                column.add( new DeleteButton( verifyFact ) );
+                verifyFactColumn.addDeleteCommand(new Command() {
 
-                add( column );
+
+                    @Override
+                    public void execute() {
+
+                        scenario.removeFixture(verifyFact);
+                        parent.renderEditor();
+
+
+                    }
+                });
+
+                add(verifyFactColumn);
+
             }
         }
     }
 
-    class DeleteButton extends ImageButton {
-
-        public DeleteButton( final VerifyFact verifyFact ) {
-            super( CommonAltedImages.INSTANCE.DeleteItemSmall(),
-                   TestScenarioConstants.INSTANCE.DeleteTheExpectationForThisFact() );
-
-            addClickHandler( new ClickHandler() {
-
-                public void onClick( ClickEvent event ) {
-                    if ( Window.confirm( TestScenarioConstants.INSTANCE.AreYouSureYouWantToRemoveThisExpectation() ) ) {
-                        scenario.removeFixture( verifyFact );
-                        parent.renderEditor();
-                    }
-                }
-            } );
-        }
-    }
 
 }

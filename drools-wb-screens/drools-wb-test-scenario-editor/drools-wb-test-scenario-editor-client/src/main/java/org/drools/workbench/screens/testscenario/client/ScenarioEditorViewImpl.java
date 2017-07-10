@@ -66,7 +66,10 @@ public class ScenarioEditorViewImpl
             final FixtureLayout fixtureLayout,
             final ScenarioKSessionSelector scenarioKSessionSelector ) {
         this.auditLog = auditLog;
+
         this.fixtureLayout = fixtureLayout;
+
+
         this.scenarioKSessionSelector = scenarioKSessionSelector;
 
         layout = uiBinder.createAndBindUi( this );

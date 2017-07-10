@@ -142,7 +142,7 @@ public class FixtureLayout
     private void addFixtureList(FixtureList fixturesList) {
         Fixture first = fixturesList.get(0);
 
-        if (first instanceof VerifyFact) {
+       if (first instanceof VerifyFact) {
             setWidget(layoutRow,
                       1,
                       scenarioWidgetComponentCreator.createVerifyFactsPanel(listExecutionTrace,
@@ -155,6 +155,7 @@ public class FixtureLayout
                       scenarioWidgetComponentCreator.createVerifyRulesFiredWidget(fixturesList));
         }
     }
+
 
     private void addFooter() {
         // add more execution sections.

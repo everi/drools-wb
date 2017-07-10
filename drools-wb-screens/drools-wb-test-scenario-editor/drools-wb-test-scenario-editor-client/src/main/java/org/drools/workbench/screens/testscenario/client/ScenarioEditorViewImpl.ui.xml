@@ -33,6 +33,7 @@
     <b:Row>
       <b:Column size="MD_12" addStyleNames='{style.padding}'>
         <kie:ScenarioKSessionSelector ui:field="scenarioKSessionSelector"/>
+          <b:Label text="SARA ON PARAS"></b:Label>
       </b:Column>
     </b:Row>
     <b:Row>
